@@ -13,11 +13,20 @@ public class Account {
 	@GeneratedValue
 	public int id;
 	
+	@NotNull
 	@Column(unique=true)
 	public String username;
 	
 	@NotNull
 	public String password;
+	
+	public Account() {	
+	}
+	
+	public Account(String username, String password) {
+		this.setUsername(username);
+		this.setPassword(password);
+	}
 	
 	public int getId() {
 		return id;

@@ -13,14 +13,31 @@ public class Url {
 	@GeneratedValue
 	public int id;
 	
-	@Column(unique=true)
-	public String url;
+	@NotNull
+	public int accountId;
+	
+	@NotNull
+	public String address;
 	
 	@NotNull
 	public int redirectType;
 	
 	@NotNull
+	@Column(unique=true)
+	public String shortKey;
+	
+	@NotNull
 	public int totalHits = 0;
+	
+	public Url() {
+	}
+	
+	public Url(int accountId, String address, int redirectType, String shortKey) {
+		this.setAccountId(accountId);
+		this.setAddress(address);
+		this.setRedirectType(redirectType);
+		this.setShortKey(shortKey);
+	}
 	
 	public int getId() {
 		return id;
@@ -30,12 +47,20 @@ public class Url {
 		this.id = id;
 	}
 	
-	public String getUrl() {
-		return url;
+	public int getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
+
+	public String getAddress() {
+		return address;
 	}
 	
-	public void setUrl(String url) {
-		this.url = url;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	public int getRedirectType() {
@@ -46,6 +71,14 @@ public class Url {
 		this.redirectType = redirectType;
 	}
 	
+	public String getShortKey() {
+		return shortKey;
+	}
+
+	public void setShortKey(String shortKey) {
+		this.shortKey = shortKey;
+	}
+
 	public int getTotalHits() {
 		return totalHits;
 	}
