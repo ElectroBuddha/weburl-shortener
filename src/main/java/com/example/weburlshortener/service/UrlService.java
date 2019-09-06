@@ -44,6 +44,13 @@ public class UrlService {
 		return urls;
 	}
 	
+	public List<Url> getAllUrls() 
+	{
+		List<Url> urls = this.repo.findAll();
+		
+		return urls;
+	}
+	
 	@Transactional
 	public Url getUrlByShortKeyAndIncrementTopHits(String key)
 	{

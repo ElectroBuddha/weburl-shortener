@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.weburlshortener.controller.resource.AccountResource;
 import com.example.weburlshortener.exceptions.EntityAlreadyExists;
-import com.example.weburlshortener.model.Account;
 import com.example.weburlshortener.service.AccountService;
 
 
@@ -37,8 +36,8 @@ public class AccountController extends BaseController {
 		String accountId = (String) requestPayload.get("accountId");
 		
 		try {
-			Account account = this.service.createAccount(accountId);
-			response = makeResponse(AccountResource.makeSuccessPayload(account), HttpStatus.CREATED);
+			String password = this.service.createAccount(accountId);
+			response = makeResponse(AccountResource.makeSuccessPayload(password), HttpStatus.CREATED);
 		}
 		catch(EntityAlreadyExists error) {
 			response = makeResponse(AccountResource.makeErrorPayload("Account already exists!"), HttpStatus.CONFLICT);

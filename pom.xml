@@ -26,6 +26,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+		<!-- spring security, basic authentication -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
 		<!-- mvc, rest, app server -->
 		<dependency>
 		    <groupId>org.apache.tomcat</groupId>

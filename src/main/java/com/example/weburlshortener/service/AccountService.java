@@ -3,6 +3,8 @@ package com.example.weburlshortener.service;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.weburlshortener.data.AccountRepository;
@@ -15,17 +17,20 @@ public class AccountService {
 	@Autowired
 	protected AccountRepository repo;
 	
-	public Account createAccount(String username) throws Exception {
+	public String createAccount(String username) throws Exception {
 		
 		String password = this.generatePassword();
-		Account account = new Account(username, password);
+		String passwordEncrypted = this.passwordEncoder().encode(password);
+		Account account = new Account(username, passwordEncrypted);
 		
 		try {
-			return this.repo.save(account);
+			this.repo.save(account);
 		}
 		catch(DataIntegrityViolationException e) {
 			throw new EntityAlreadyExists(null, e);
 		}
+		
+		return password;
 	}
 	
 	protected String generatePassword() {
@@ -35,5 +40,9 @@ public class AccountService {
 	    
 	    return RandomStringUtils.random(length, useLetters, useNumbers);
 	}
+	
+	protected PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

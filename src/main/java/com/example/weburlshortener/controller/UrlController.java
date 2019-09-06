@@ -1,5 +1,6 @@
 package com.example.weburlshortener.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class UrlController extends BaseController {
 	protected AccountRepository accountRepo;
 
 	@PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> registerUrl(@RequestBody @Nullable HashMap<String, Object> requestPayload) throws Exception 
+	public ResponseEntity<?> registerUrl(Principal principal, @RequestBody @Nullable HashMap<String, Object> requestPayload) throws Exception 
 	{	
 		// Simple validation
 		if (requestPayload == null || requestPayload.get("url") == null || requestPayload.get("redirectType") == null) {
@@ -38,11 +39,11 @@ public class UrlController extends BaseController {
 					HttpStatus.UNPROCESSABLE_ENTITY
 			);
 		}
-		
+
 		ResponseEntity<?> response;
 		String urlAddress = (String) requestPayload.get("url");
 		int redirectType  = (int) requestPayload.get("redirectType");
-		Account account   = this.accountRepo.findById(1).orElse(null);	
+		Account account   = this.accountRepo.findByUsername(principal.getName());	
 		
 		if (redirectType != 301 && redirectType != 302) {
 			return makeResponse(
@@ -71,23 +72,27 @@ public class UrlController extends BaseController {
 	}
 	
 	@GetMapping(value = {"/statistic", "/statistic/{accountId}"}, produces = "application/json")
-	public ResponseEntity<?> getStatistics(@PathVariable(required = false) String accountId) 
+	public ResponseEntity<?> getStatistics(Principal principal, @PathVariable(required = false) Integer accountId) 
 	{
-		Account account;
+		List<Url> urls;
 		
-		try {
-			account = this.accountRepo.findById(Integer.parseInt(accountId)).orElse(null);
-			if (account == null) throw new Exception();
+		Account account = this.accountRepo.findByUsername(principal.getName());	
+		
+		if (account.isAdmin()) {
+			urls = accountId != null 
+					? this.urlService.getUrlsByAccountId(accountId)
+					: this.urlService.getAllUrls();
 		}
-		catch(Exception e) {
+		else if (accountId == null) {
+			urls = this.urlService.getUrlsByAccountId(account.getId());
+		}
+		else {
 			return makeResponse(
-					UrlResource.makeErrorPayload("No account found."), 
-					HttpStatus.UNPROCESSABLE_ENTITY
+					UrlResource.makeErrorPayload("You can only view your own statistics."), 
+					HttpStatus.FORBIDDEN
 			);
 		}
-		
-		List<Url> urls = this.urlService.getUrlsByAccountId(account.getId());
-		
+
 		return makeResponse(UrlResource.getUrlStatisticsPayload(urls), HttpStatus.OK);
 	}
 
