@@ -19,6 +19,7 @@ import com.example.weburlshortener.data.AccountRepository;
 import com.example.weburlshortener.model.Account;
 import com.example.weburlshortener.model.Url;
 import com.example.weburlshortener.service.UrlService;
+import com.example.weburlshortener.util.ConfigProperties;
 
 @RestController
 public class UrlController extends BaseController {
@@ -28,6 +29,9 @@ public class UrlController extends BaseController {
 	
 	@Autowired
 	protected AccountRepository accountRepo;
+	
+	@Autowired
+	protected ConfigProperties configProperties;
 
 	@PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> registerUrl(Principal principal, @RequestBody @Nullable HashMap<String, Object> requestPayload) throws Exception 
@@ -61,12 +65,13 @@ public class UrlController extends BaseController {
 		
 		try {
 			Url url = this.urlService.createUrl(account.getId(), urlAddress, redirectType, null);
+			url.setConfigProperties(configProperties);
 			response = makeResponse(UrlResource.getUrlSuccessfullyCreatedPayload(url), HttpStatus.CREATED);
 		}
 		catch(Exception e) {
+			System.out.println(e.getMessage());
 			response = makeResponse(UrlResource.makeErrorPayload("Problem registering url, please try again!"), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 		
 		return response;
 	}

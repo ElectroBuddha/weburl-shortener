@@ -6,12 +6,12 @@ import java.util.List;
 import com.example.weburlshortener.model.Url;
 
 public class UrlResource extends BaseResource {
-
+	
 	public static HashMap<String, Object> getUrlSuccessfullyCreatedPayload(Url url) 
 	{
 		HashMap<String, Object> payload = new HashMap<String, Object>();
 		
-		payload.put("shortUrl", url.getShortKey());
+		payload.put("shortUrl", url.getShortUrl());
 		
 		return payload;
 	}

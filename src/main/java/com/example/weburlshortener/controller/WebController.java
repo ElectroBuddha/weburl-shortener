@@ -50,7 +50,7 @@ public class WebController {
 	
 	@RequestMapping("/")
 	public ModelAndView home() 
-	{	
+	{
 		ModelAndView mv = new ModelAndView("home");
 		
 		return mv;

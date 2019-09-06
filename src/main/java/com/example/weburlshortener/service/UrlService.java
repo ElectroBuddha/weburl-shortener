@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.weburlshortener.data.UrlRepository;
 import com.example.weburlshortener.exceptions.EntityAlreadyExists;
 import com.example.weburlshortener.model.Url;
-import com.example.weburlshortener.util.Utils;
 
 @Service
 public class UrlService {
@@ -22,7 +21,7 @@ public class UrlService {
 	public Url createUrl(int accountId, String address, int redirectType, String shortKey) throws Exception 
 	{
 		String urlShortKey = shortKey != null ? shortKey : this.generateKey();
-		Url url = new Url(accountId, address, redirectType, urlShortKey);
+		Url url = new Url(accountId, address, redirectType, urlShortKey, null);
 
 		try {
 			return this.repo.save(url);
@@ -54,14 +53,15 @@ public class UrlService {
 	@Transactional
 	public Url getUrlByShortKeyAndIncrementTopHits(String key)
 	{
-		Url url;
+		Url url = null;
 		
 		try {
 			url = this.repo.findByShortKeyForWrite(key);
 			
-			url.setTotalHits(url.getTotalHits() + 1);
-	
-			this.repo.save(url);
+			if (url != null) {
+				url.setTotalHits(url.getTotalHits() + 1);
+				this.repo.save(url);
+			}
 		}
 		// Catch PessimisticLockException (or any other exception type)
 		catch(Exception e) {

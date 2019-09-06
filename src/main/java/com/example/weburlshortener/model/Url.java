@@ -5,7 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import com.example.weburlshortener.util.ConfigProperties;
 
 @Entity
 public class Url {
@@ -21,6 +26,8 @@ public class Url {
 	protected String address;
 	
 	@NotNull
+	@Min(301)
+	@Max(302)
 	protected int redirectType;
 	
 	@NotNull
@@ -30,14 +37,18 @@ public class Url {
 	@NotNull
 	protected int totalHits = 0;
 	
+	@Transient
+	ConfigProperties configProperties;
+
 	public Url() {
 	}
 	
-	public Url(int accountId, String address, int redirectType, String shortKey) {
+	public Url(int accountId, String address, int redirectType, String shortKey, ConfigProperties configProperties) {
 		this.setAccountId(accountId);
 		this.setAddress(address);
 		this.setRedirectType(redirectType);
 		this.setShortKey(shortKey);
+		this.setConfigProperties(configProperties);
 	}
 	
 	public int getId() {
@@ -86,6 +97,25 @@ public class Url {
 	
 	public void setTotalHits(int totalHits) {
 		this.totalHits = totalHits;
+	}
+
+	public void setConfigProperties(ConfigProperties configProperties) {
+		this.configProperties = configProperties;
+	}
+	
+	public String getShortUrl() {
+		String shortUrl;
+		
+		if (this.configProperties != null) {
+			String baseUrlPath = this.configProperties.getBaseUrlPath();
+			String basePath = baseUrlPath.endsWith("/") ? baseUrlPath : baseUrlPath + "/";
+			shortUrl = basePath + this.getShortKey();
+		}
+		else {
+			shortUrl = this.getShortKey();
+		}
+		
+		return shortUrl;
 	}
 
 }
