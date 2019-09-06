@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "app.baseUrlPath",
+    "type": "java.lang.String",
+    "description": "This URL is used when generating final 'short' URL that is returned to user."
+  },
+  {
+    "name": "app.homeUrlPath",
+    "type": "java.lang.String",
+    "description": "This URL is used to redirect user back to home page when some non-existent page was requested."
+  }
+]}

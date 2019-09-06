@@ -20,7 +20,7 @@ import com.example.weburlshortener.service.AccountService;
 public class AccountController extends BaseController {
 	
 	@Autowired
-	AccountService service;
+	protected AccountService service;
 	
 	@PostMapping(value = "/account", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> createAccount(@RequestBody @Nullable HashMap<String, Object> requestPayload) {

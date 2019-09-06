@@ -23,14 +23,14 @@ import com.example.weburlshortener.service.UrlService;
 public class UrlController extends BaseController {
 	
 	@Autowired
-	UrlService urlService;
+	protected UrlService urlService;
 	
 	@Autowired
-	AccountRepository accountRepo;
+	protected AccountRepository accountRepo;
 
 	@PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> registerUrl(@RequestBody @Nullable HashMap<String, Object> requestPayload) throws Exception {
-		
+	public ResponseEntity<?> registerUrl(@RequestBody @Nullable HashMap<String, Object> requestPayload) throws Exception 
+	{	
 		// Simple validation
 		if (requestPayload == null || requestPayload.get("url") == null || requestPayload.get("redirectType") == null) {
 			return makeResponse(
@@ -59,7 +59,7 @@ public class UrlController extends BaseController {
 		}
 		
 		try {
-			Url url = this.urlService.createUrl(account.id, urlAddress, redirectType, null);
+			Url url = this.urlService.createUrl(account.getId(), urlAddress, redirectType, null);
 			response = makeResponse(UrlResource.getUrlSuccessfullyCreatedPayload(url), HttpStatus.CREATED);
 		}
 		catch(Exception e) {
@@ -71,8 +71,8 @@ public class UrlController extends BaseController {
 	}
 	
 	@GetMapping(value = {"/statistic", "/statistic/{accountId}"}, produces = "application/json")
-	public ResponseEntity<?> getStatistics(@PathVariable(required = false) String accountId) {
-
+	public ResponseEntity<?> getStatistics(@PathVariable(required = false) String accountId) 
+	{
 		Account account;
 		
 		try {
@@ -86,7 +86,7 @@ public class UrlController extends BaseController {
 			);
 		}
 		
-		List<Url> urls = this.urlService.getUrls(account.id);
+		List<Url> urls = this.urlService.getUrlsByAccountId(account.getId());
 		
 		return makeResponse(UrlResource.getUrlStatisticsPayload(urls), HttpStatus.OK);
 	}

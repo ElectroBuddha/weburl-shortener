@@ -13,7 +13,7 @@ import com.example.weburlshortener.model.Account;
 public class AccountService {
 	
 	@Autowired
-	AccountRepository repo;
+	protected AccountRepository repo;
 	
 	public Account createAccount(String username) throws Exception {
 		
@@ -28,7 +28,7 @@ public class AccountService {
 		}
 	}
 	
-	private String generatePassword() {
+	protected String generatePassword() {
 		int length = 8;
 	    boolean useLetters = true;
 	    boolean useNumbers = true;

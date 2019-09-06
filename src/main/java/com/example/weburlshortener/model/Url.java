@@ -11,23 +11,23 @@ public class Url {
 	
 	@Id
 	@GeneratedValue
-	public int id;
+	protected int id;
 	
 	@NotNull
-	public int accountId;
+	protected int accountId;
 	
 	@NotNull
-	public String address;
+	protected String address;
 	
 	@NotNull
-	public int redirectType;
+	protected int redirectType;
 	
 	@NotNull
 	@Column(unique=true)
-	public String shortKey;
+	protected String shortKey;
 	
 	@NotNull
-	public int totalHits = 0;
+	protected int totalHits = 0;
 	
 	public Url() {
 	}

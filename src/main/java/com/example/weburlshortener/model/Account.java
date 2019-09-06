@@ -11,14 +11,14 @@ public class Account {
 
 	@Id
 	@GeneratedValue
-	public int id;
+	protected int id;
 	
 	@NotNull
 	@Column(unique=true)
-	public String username;
+	protected String username;
 	
 	@NotNull
-	public String password;
+	protected String password;
 	
 	public Account() {	
 	}
