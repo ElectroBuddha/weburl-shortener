@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.weburlshortener.controller.rest.model.AccountCreateRequest;
 import com.example.weburlshortener.controller.rest.model.AccountCreateResponse;
 import com.example.weburlshortener.exception.EntityAlreadyExists;
-import com.example.weburlshortener.service.AccountServiceImpl;
+import com.example.weburlshortener.service.AccountService;
 import com.example.weburlshortener.util.Utils;
 
 
@@ -20,7 +20,7 @@ import com.example.weburlshortener.util.Utils;
 public class AccountController {
 	
 	@Autowired
-	protected AccountServiceImpl service;
+	protected AccountService service;
 
 	/**
 	 * Create account with submitted account id

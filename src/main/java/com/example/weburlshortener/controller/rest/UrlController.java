@@ -20,17 +20,17 @@ import com.example.weburlshortener.controller.rest.model.UrlRegisterRequest;
 import com.example.weburlshortener.controller.rest.model.UrlRegisterResponse;
 import com.example.weburlshortener.model.Account;
 import com.example.weburlshortener.model.Url;
-import com.example.weburlshortener.repository.AccountRepository;
-import com.example.weburlshortener.service.UrlServiceImpl;
+import com.example.weburlshortener.service.AccountService;
+import com.example.weburlshortener.service.UrlService;
 
 @RestController
 public class UrlController {
 	
 	@Autowired
-	protected UrlServiceImpl urlService;
+	protected UrlService urlService;
 	
 	@Autowired
-	protected AccountRepository accountRepo;
+	protected AccountService accountService;
 	
 	@Autowired
 	protected AppProperties appProperties;
@@ -48,7 +48,7 @@ public class UrlController {
 		ResponseEntity<?> response;
 		
 		try {
-			Account authenticatedAccount = this.accountRepo.findByUsername(principal.getName());	
+			Account authenticatedAccount = this.accountService.getAccountByUsername(principal.getName());	
 			
 			Url url = this.urlService.createUrl(authenticatedAccount.getId(), urlRegisterRequest.getUrl(), urlRegisterRequest.getRedirectType());
 			url.setBaseUrlPath(this.appProperties.getBaseUrlPath());
@@ -71,7 +71,7 @@ public class UrlController {
 	@GetMapping(value = {"/statistic"}, produces = "application/json")
 	private ResponseEntity<Object> getOwnStatistics(Principal principal) {
 
-		Account authenticatedAccount = this.accountRepo.findByUsername(principal.getName());	
+		Account authenticatedAccount = this.accountService.getAccountByUsername(principal.getName());	
 		
 		List<Url> urls = authenticatedAccount.isAdmin() 
 					? this.urlService.getAllUrls()
@@ -90,7 +90,7 @@ public class UrlController {
 	@GetMapping(value = {"/statistic/{accountId}"}, produces = "application/json")
 	private ResponseEntity<Object> getStatisticsByAccountId(@PathVariable String accountId) {
 	
-		Account requestedAccount = this.accountRepo.findByUsername(accountId);
+		Account requestedAccount = this.accountService.getAccountByUsername(accountId);
 		
 		if (requestedAccount == null) {
 			return new ResponseEntity<>(StatisticResponse.error("AccountId does not exist."), HttpStatus.PRECONDITION_FAILED);

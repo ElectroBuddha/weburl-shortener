@@ -76,6 +76,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- needed for testing rest endpoints with basic authentication -->
+		<dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

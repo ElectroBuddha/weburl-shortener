@@ -31,5 +31,9 @@ public class AccountServiceImpl implements AccountService {
 		
 		return account;
 	}
+	
+	public Account getAccountByUsername(String username) {
+		return this.repo.findByUsername(username);
+	}
 
 }
