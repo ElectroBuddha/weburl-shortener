@@ -49,9 +49,13 @@ public class IndexController {
 	}
 	
 	@RequestMapping("/")
-	public ModelAndView home() 
+	public ModelAndView index() 
 	{
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("index");
+		
+		String name = "Vedran";
+		
+		mv.addObject("name", name);
 		
 		return mv;
 	}
