@@ -22,6 +22,13 @@ public class AccountController {
 	@Autowired
 	protected AccountServiceImpl service;
 
+	/**
+	 * Create account with submitted account id
+	 * 
+	 * @param accountCreateRequest
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping(value = "/account", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Object> createAccount(@RequestBody @Valid AccountCreateRequest accountCreateRequest) throws Exception {
 		ResponseEntity<Object> response;

@@ -35,14 +35,22 @@ public class UrlController {
 	@Autowired
 	protected AppProperties appProperties;
 	
+	/**
+	 * Create short url for submitted url
+	 * 
+	 * @param principal
+	 * @param urlRegisterRequest
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> registerUrl(Principal principal, @RequestBody @Valid UrlRegisterRequest urlRegisterRequest) throws Exception  {	
 		ResponseEntity<?> response;
 		
 		try {
-			Account authorizedAccount = this.accountRepo.findByUsername(principal.getName());	
+			Account authenticatedAccount = this.accountRepo.findByUsername(principal.getName());	
 			
-			Url url = this.urlService.createUrl(authorizedAccount.getId(), urlRegisterRequest.getUrl(), urlRegisterRequest.getRedirectType());
+			Url url = this.urlService.createUrl(authenticatedAccount.getId(), urlRegisterRequest.getUrl(), urlRegisterRequest.getRedirectType());
 			url.setBaseUrlPath(this.appProperties.getBaseUrlPath());
 			
 			response = new ResponseEntity<>(UrlRegisterResponse.ok(url), HttpStatus.CREATED);
@@ -54,46 +62,43 @@ public class UrlController {
 		return response;
 	}
 	
+	/**
+	 * Retrieve url statistics for authenticated user
+	 * 
+	 * @param principal
+	 * @return
+	 */
 	@GetMapping(value = {"/statistic"}, produces = "application/json")
 	private ResponseEntity<Object> getOwnStatistics(Principal principal) {
 
-		Account authorizedAccount = this.accountRepo.findByUsername(principal.getName());	
+		Account authenticatedAccount = this.accountRepo.findByUsername(principal.getName());	
 		
-		List<Url> urls = authorizedAccount.isAdmin() 
+		List<Url> urls = authenticatedAccount.isAdmin() 
 					? this.urlService.getAllUrls()
-				    : this.urlService.getUrlsByAccountId(authorizedAccount.getId());
+				    : this.urlService.getUrlsByAccountId(authenticatedAccount.getId());
 					
 		return new ResponseEntity<>(StatisticResponse.ok(urls), HttpStatus.OK);
 	}
 	
+	/**
+	 * Only available to users with 'ADMIN' role
+	 * 
+	 * @param principal
+	 * @param accountId
+	 * @return
+	 */
 	@GetMapping(value = {"/statistic/{accountId}"}, produces = "application/json")
-	private ResponseEntity<Object> getStatisticsByAccountId(Principal principal, @PathVariable String accountId) {
+	private ResponseEntity<Object> getStatisticsByAccountId(@PathVariable String accountId) {
+	
+		Account requestedAccount = this.accountRepo.findByUsername(accountId);
 		
-		Account authorizedAccount = this.accountRepo.findByUsername(principal.getName());	
-		
-		// Only admins can view 'per-user' statistics
-		if (!authorizedAccount.isAdmin()) {
-			return new ResponseEntity<>(StatisticResponse.error("You can only view your own statistics."), HttpStatus.PRECONDITION_FAILED);
-		}
-		
-		Integer resolvedAccountId = this.resolveAccountId(accountId);
-		
-		if (resolvedAccountId == null) {
+		if (requestedAccount == null) {
 			return new ResponseEntity<>(StatisticResponse.error("AccountId does not exist."), HttpStatus.PRECONDITION_FAILED);
 		}
 		
-		List<Url> urls = this.urlService.getUrlsByAccountId(resolvedAccountId);
+		List<Url> urls = this.urlService.getUrlsByAccountId(requestedAccount.getId());
 		return new ResponseEntity<>(StatisticResponse.ok(urls), HttpStatus.OK);
 	}
-	
-	private Integer resolveAccountId(String username) {
-		Account account = this.accountRepo.findByUsername(username);
-		
-		if (account != null) {
-			return account.getId();
-		}
-		
-		return null;
-	}
+
 
 }
