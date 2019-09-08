@@ -2,6 +2,8 @@ package com.example.weburlshortener.controller;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,18 +28,25 @@ public class AccountControllerTests {
     
     @Test
     public void testCreateAccount() throws Exception {
-        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+    	
+    	headers.set("Content-Type", "application/json");
+    	headers.set("Accept", "application/json");
+    	
+    	HashMap<String, Object> body = new HashMap<>();
+    	
+    	body.put("accountId", "user1");
+    	
+        HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(body, headers);
 
         ResponseEntity<String> response = 
         	restTemplate.exchange(
         		createURLWithPort("/account"), 
-        		HttpMethod.POST, entity, 
+        		HttpMethod.POST, 
+        		entity, 
         		String.class
         	);
-       
-        String actual = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
         
-        assertTrue(actual.contains("/account"));
+        assertTrue(response.getBody().contains("password"));
     } 
     
     private String createURLWithPort(String uri) {

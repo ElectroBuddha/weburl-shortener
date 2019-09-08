@@ -32,5 +32,5 @@ build/
 
 ### CUSTOM ###
 .DS_Store
-
+bin/
 
