@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.weburlshortener.data.AccountRepository;
 import com.example.weburlshortener.model.Account;
+import com.example.weburlshortener.repository.AccountRepository;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {

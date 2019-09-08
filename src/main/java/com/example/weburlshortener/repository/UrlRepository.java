@@ -1,4 +1,4 @@
-package com.example.weburlshortener.data;
+package com.example.weburlshortener.repository;
 
 import java.util.List;
 
@@ -19,6 +19,14 @@ public interface UrlRepository extends JpaRepository<Url, Integer>
 
 	List<Url> findByAccountId(int accountId);
 	
+	/**
+	 * Fetch record and set 'PESSIMISTIC_WRITE' lock mode to prevent any other write operation
+	 * until we release lock.
+	 * Lock timeout is set to 5000ms.
+	 *   
+	 * @param shortKey
+	 * @return
+	 */
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "5000")})
 	@Query("select u from Url u where u.shortKey = :shortKey")

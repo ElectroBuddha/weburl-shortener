@@ -1,4 +1,4 @@
-package com.example.weburlshortener.util;
+package com.example.weburlshortener.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:application.properties")
 @ConfigurationProperties(prefix = "app")
-public class ConfigProperties 
+public class AppProperties 
 {	
 	protected String baseUrlPath;
 	protected String homeUrlPath;

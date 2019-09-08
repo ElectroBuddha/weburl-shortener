@@ -1,4 +1,4 @@
-package com.example.weburlshortener.exceptions;
+package com.example.weburlshortener.exception;
 
 public class EntityAlreadyExists extends Exception {
 

@@ -40,15 +40,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     {
         authentication
         	.userDetailsService(userDetailsService);
-//        	.inMemoryAuthentication()
-//        	.withUser("user").password(passwordEncoder().encode("user")).roles("USER")
-//        	.and()
-//        	.withUser("admin").password(passwordEncoder().encode("nimda")).roles("USER", "ADMIN");
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
 }

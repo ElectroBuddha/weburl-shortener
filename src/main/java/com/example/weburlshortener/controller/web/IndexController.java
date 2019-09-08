@@ -1,4 +1,4 @@
-package com.example.weburlshortener.controller;
+package com.example.weburlshortener.controller.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.weburlshortener.model.Url;
-import com.example.weburlshortener.service.UrlService;
+import com.example.weburlshortener.service.UrlServiceImpl;
 
 
 @Controller
-public class WebController {
+public class IndexController {
 	
 	@Value("${app.homeUrlPath}")
 	protected String homeUrlPath;
 	
 	@Autowired
-	protected UrlService urlService;
+	protected UrlServiceImpl urlService;
 
 	@GetMapping("/{key}")
 	public ResponseEntity<?> redirect(@PathVariable String key) 

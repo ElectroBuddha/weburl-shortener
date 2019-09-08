@@ -10,14 +10,12 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.example.weburlshortener.util.ConfigProperties;
-
 @Entity
 public class Url {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected int id;
+	protected long id;
 	
 	@NotNull
 	protected int accountId;
@@ -25,37 +23,35 @@ public class Url {
 	@NotNull
 	protected String address;
 	
-	@NotNull
 	@Min(301)
 	@Max(302)
 	protected int redirectType;
 	
-	@NotNull
 	@Column(unique=true)
 	protected String shortKey;
 	
-	@NotNull
-	protected int totalHits = 0;
+	@Min(0)
+	protected int numOfHits = 0;
 	
 	@Transient
-	ConfigProperties configProperties;
+	protected String baseUrlPath;
 
 	public Url() {
 	}
 	
-	public Url(int accountId, String address, int redirectType, String shortKey, ConfigProperties configProperties) {
+	public Url(int accountId, String address, int redirectType, String shortKey, String baseUrlPath) {
 		this.setAccountId(accountId);
 		this.setAddress(address);
 		this.setRedirectType(redirectType);
 		this.setShortKey(shortKey);
-		this.setConfigProperties(configProperties);
+		this.setBaseUrlPath(baseUrlPath);
 	}
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
@@ -91,23 +87,26 @@ public class Url {
 		this.shortKey = shortKey;
 	}
 
-	public int getTotalHits() {
-		return totalHits;
+	public int getNumOfHits() {
+		return numOfHits;
 	}
 	
-	public void setTotalHits(int totalHits) {
-		this.totalHits = totalHits;
+	public void setNumOfHits(int numOfHits) {
+		this.numOfHits = numOfHits;
+	}
+	
+	public String getBaseUrlPath() {
+		return baseUrlPath;
 	}
 
-	public void setConfigProperties(ConfigProperties configProperties) {
-		this.configProperties = configProperties;
+	public void setBaseUrlPath(String baseUrlPath) {
+		this.baseUrlPath = baseUrlPath;
 	}
-	
+
 	public String getShortUrl() {
 		String shortUrl;
 		
-		if (this.configProperties != null) {
-			String baseUrlPath = this.configProperties.getBaseUrlPath();
+		if (this.baseUrlPath != null) {
 			String basePath = baseUrlPath.endsWith("/") ? baseUrlPath : baseUrlPath + "/";
 			shortUrl = basePath + this.getShortKey();
 		}

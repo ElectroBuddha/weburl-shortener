@@ -17,7 +17,6 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int id;
 	
-	@NotNull
 	@Column(unique=true)
 	protected String username;
 	
