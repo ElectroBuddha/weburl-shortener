@@ -34,7 +34,7 @@ To run the app as a standalone java app, you first need to build it.
 
 Run the app, go to [http://localhost:8080](http://localhost:8080) and follow the QuickStart guide.
 
-### Technology ##
+## Technology
 Following libraries were used during the development of this app:
 
 - **Spring Boot** - Server side framework (v2.1.7)
