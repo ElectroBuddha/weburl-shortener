@@ -261,16 +261,46 @@
                             <section id="additional-section" class="doc-section">
                                 <h2 class="section-title">Additional</h2>
                                 
-                                <p></p>
+                                <div id="additional1"  class="section-block">
+	                                <h3 class="block-title">Service Data Persistence</h3>
+	                                
+	                                <p>
+	                                  	 You can view the database tables via H2 console which is available at <a href="http://localhost:8080/h2-console" target="_blank">http://localhost:8080/h2-console</a>
+	                                </p>
+	                                
+	                                <ul class="list">
+                                    	<li><strong>JDBC Url:</strong> jdbc:h2:mem:webshortener</li>
+                                    	<li><strong>User Name:</strong> root</li>
+                                    	<li><strong>Password:</strong> (empty)</li>
+                                    </ul>
+	                                
+	                                <div class="callout-block callout-warning">
+	                                    <div class="icon-holder">
+	                                        <i class="fas fa-bug"></i>
+	                                    </div>
+	                                    <div class="content">
+	                                        <h4 class="callout-title">Data Store</h4>
+	                                        <p>Please note that all of the registered urls and all of the statistics will be lost on each app restart. <br/> Currently, the embedded H2 database is configured to store its data only in memory.</p>
+	                                    </div>
+	                                </div>
+                                </div>
                                 
-                                <div class="callout-block callout-warning">
-                                    <div class="icon-holder">
-                                        <i class="fas fa-bug"></i>
-                                    </div>
-                                    <div class="content">
-                                        <h4 class="callout-title">Service Data Persistance</h4>
-                                        <p>Please note that all of the registered urls and all of the statistics will be lost on each app restart. <br/> Currently, the embedded H2 database is configured to store its data only in memory.</p>
-                                    </div>
+                                <div id="additional2"  class="section-block">
+	                                <h3 class="block-title">Testing</h3>
+	                                
+	                                <p>The source project contains integrations tests for testing REST APIs for all of the features specified in 'Using the App' section.</p>
+	                                
+	                                <div class="callout-block callout-success">
+	                                    <div class="icon-holder">
+	                                        <i class="fas fa-thumbs-up"></i>
+	                                    </div>
+	                                    <div class="content">
+	                                        <h4 class="callout-title">Running Tests</h4>
+	                                        <p>You can execute tests from your IDE or you can run the Maven test command <code>mvn test</code> from the root of your project to get the same results.</p>
+	                                    </div>
+	                                </div>
+	                                
+	                                <p>Happy testing !</p>
                                 </div>
                                 	
                             </section>
@@ -298,6 +328,10 @@
                                        <a class="nav-link scrollto" href="#statistics2">Admin Account</a>
                                    </nav>
                                 <a class="nav-link scrollto" href="#additional-section">Additional</a>
+                                	<nav class="doc-sub-menu nav flex-column">
+                                       <a class="nav-link scrollto" href="#additional1">Service Data Persistence</a>
+                                       <a class="nav-link scrollto" href="#additional2">Testing</a>
+                                   </nav>
                             </nav>
                         </div>
                     </div>
