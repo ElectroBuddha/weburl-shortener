@@ -14,20 +14,20 @@ To run the app as a standalone java app, you first need to build it.
 
  - Use Maven command from the root of your project:
 
-	```bash
-	  $ mvn clean install
+	```
+		clean install
 	```
 
  - Run the app with java -jar command:
  
-	 ```bash
-	  $ java -jar target/weburl-shortener-0.0.1-SNAPSHOT.jar
+	 ```
+	 	java -jar target/weburl-shortener-0.0.1-SNAPSHOT.jar
 	 ```
 
   - Or run the app using Maven plugin:
  
-	 ```bash
-	  $ mvn spring-boot:run
+	 ```
+	 	mvn spring-boot:run
 	 ```
 
 ## Using the App
@@ -42,4 +42,8 @@ Following libraries were used during the development of this app:
 - **Thymeleaf** - Templating engine
 - **Bootstrap** - CSS framework
 - **[PrettyDocs](https://github.com/xriley/PrettyDocs-Theme)** - Theme for QuickGuide pages
+
+## License ##
+This project is licensed under the terms of the MIT license.
+
 
