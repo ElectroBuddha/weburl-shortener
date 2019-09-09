@@ -14,21 +14,21 @@ To run the app as a standalone java app, you first need to build it.
 
  - Use Maven command from the root of your project:
 
-	```
-		mvn clean install
-	```
+ ```
+ mvn clean install
+ ```
 
  - Run the app with java -jar command:
  
-	 ```
-	 	java -jar target/weburl-shortener-0.0.1-SNAPSHOT.jar
-	 ```
+ ```
+ java -jar target/weburl-shortener-0.0.1-SNAPSHOT.jar
+ ```
 
-  - Or run the app using Maven plugin:
+ - Or run the app using Maven plugin:
  
-	 ```
-	 	mvn spring-boot:run
-	 ```
+ ```
+ mvn spring-boot:run
+ ```
 
 ## Using the App
 
