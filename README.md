@@ -15,7 +15,7 @@ To run the app as a standalone java app, you first need to build it.
  - Use Maven command from the root of your project:
 
 	```
-		clean install
+		mvn clean install
 	```
 
  - Run the app with java -jar command:
